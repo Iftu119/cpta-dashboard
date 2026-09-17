@@ -1,107 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>CPTA Dashboard</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
-
-body{
-    background:#f5f7fa;
-    padding:30px;
-}
-
-.header{
-    margin-bottom:30px;
-}
-
-.header h1{
-    color:#005EB8;
-    font-size:40px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-}
-
-.card{
-    background:white;
-    border-radius:12px;
-    padding:24px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.label{
-    color:#666;
-    font-size:14px;
-}
-
-.value{
-    font-size:42px;
-    font-weight:700;
-    color:#005EB8;
-    margin-top:10px;
-}
-
-@media(max-width:900px){
-    .cards{
-        grid-template-columns:1fr;
-    }
-}
-
-</style>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KGF CPTA Capability Dashboard</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="header">
-    <h1>CPTA Capability Dashboard</h1>
-</div>
+<header>
+  <div>
+    <h1>KGF CPTA Capability Dashboard</h1>
+    <div class="sub" id="stamp"></div>
+  </div>
+  <div class="actions">
+    <button class="btn ghost" id="btnReset">Reset my edits</button>
+    <button class="btn ghost" id="btnCsv">Download CSV</button>
+    <button class="btn" id="btnExport">Export updated data</button>
+  </div>
+</header>
 
 <div class="cards">
-
-    <div class="card">
-        <div class="label">Capabilities</div>
-        <div class="value" id="capabilities">Loading...</div>
-    </div>
-
-    <div class="card">
-        <div class="label">Nominees</div>
-        <div class="value" id="nominees">Loading...</div>
-    </div>
-
-    <div class="card">
-        <div class="label">Assignments</div>
-        <div class="value" id="assignments">Loading...</div>
-    </div>
-
-    <div class="card">
-        <div class="label">Completion</div>
-        <div class="value" id="completion">Loading...</div>
-    </div>
-
+  <div class="card"><div class="label">Capability Streams</div><div class="value" id="kCap">-</div></div>
+  <div class="card"><div class="label">Nominees</div><div class="value" id="kNom">-</div></div>
+  <div class="card"><div class="label">Assignments</div><div class="value" id="kAsg">-</div></div>
+  <div class="card"><div class="label">Overall Completion</div><div class="value" id="kPct">-</div></div>
+  <div class="card"><div class="label">Certified</div><div class="value" id="kCert">-</div></div>
+  <div class="card"><div class="label">Not Started</div><div class="value" id="kNs">-</div></div>
 </div>
 
-<script>
+<div class="panel">
+  <h2>Progress by Capability</h2>
+  <div id="caps"></div>
+</div>
 
-// Temporary test values
+<div class="panel">
+  <h2>Assignments <span style="font-weight:400;color:#94a3b8;font-size:13px">&mdash; tick your milestones, then click Export</span></h2>
+  <div class="filters">
+    <select id="fCap"></select>
+    <select id="fRoute"></select>
+    <select id="fRole">
+      <option value="">All roles</option>
+      <option>Lead</option>
+      <option>Backup</option>
+    </select>
+    <select id="fStatus">
+      <option value="">All statuses</option>
+      <option>Not Started</option>
+      <option>In Progress</option>
+      <option>Certified</option>
+    </select>
+    <input id="fSearch" type="text" placeholder="Search nominee, capability or ID">
+    <span class="count" id="count"></span>
+  </div>
+  <div style="overflow-x:auto"><table id="tbl"></table></div>
+  <div class="legend">
+    M1 Nominated &nbsp;&bull;&nbsp; M2 Training Completed &nbsp;&bull;&nbsp; M3 Assessment Done &nbsp;&bull;&nbsp; M4 Evidence Submitted &nbsp;&bull;&nbsp; M5 Certified
+  </div>
+</div>
 
-document.getElementById("capabilities").innerText = "19";
-document.getElementById("nominees").innerText = "21";
-document.getElementById("assignments").innerText = "57";
-document.getElementById("completion").innerText = "65%";
+<dialog id="dlg">
+  <h2 style="margin-bottom:8px">Updated data.js</h2>
+  <p style="font-size:13px;color:#64748b;margin-bottom:12px">
+    Copy or download this, then open <b>data.js</b> in GitHub, replace everything, and commit.
+    Once committed, everyone sees the updated status.
+  </p>
+  <textarea id="exportBox" spellcheck="false"></textarea>
+  <div style="margin-top:12px;display:flex;gap:10px;justify-content:flex-end">
+    <button class="btn ghost" onclick="document.getElementById('dlg').close()">Close</button>
+    <button class="btn ghost" id="btnDownload">Download data.js</button>
+    <button class="btn" id="btnCopy">Copy</button>
+  </div>
+</dialog>
 
-</script>
+<div id="toast"></div>
 
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
