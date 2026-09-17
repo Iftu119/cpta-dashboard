@@ -1,14 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CPTA Dashboard</title>
+<meta charset="utf-8">
+<title>CPTA Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+    padding:30px;
+}
+
+.header{
+    margin-bottom:30px;
+}
+
+.header h1{
+    color:#005EB8;
+    font-size:40px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:24px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.label{
+    color:#666;
+    font-size:14px;
+}
+
+.value{
+    font-size:42px;
+    font-weight:700;
+    color:#005EB8;
+    margin-top:10px;
+}
+
+@media(max-width:900px){
+    .cards{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+
 </head>
-<body style="font-family:Segoe UI;padding:40px;background:#f5f7fa;">
-    <h1 style="color:#005EB8;">CPTA Dashboard</h1>
 
-    <p>Version 1 deployment successful.</p>
+<body>
 
-    <p>If you can see this page from GitHub Pages, hosting works.</p>
+<div class="header">
+    <h1>CPTA Capability Dashboard</h1>
+</div>
+
+<div class="cards">
+
+    <div class="card">
+        <div class="label">Capabilities</div>
+        <div class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Nominees</div>
+        <div class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Assignments</div>
+        <div class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">Completion</div>
+        <div class="value">0%</div>
+    </div>
+
+</div>
 
 </body>
 </html>
