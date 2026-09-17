@@ -99,7 +99,7 @@ const CPTA_DATA = {
     { id: "A054", capability: "MMHE", capCode: "S3009", capType: "CP", route: "CHSEM Viva", nominee: "Iftu, Iftekher", email: "Iftekher.Iftu@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A055", capability: "Enzyme", capCode: "Enzyme TA3", capType: "TA", route: "Regional TA Evaluation", nominee: "Mumu, Rahnuma-Nuraia", email: "Rahnuma-Nuraia.Mumu@unilever.com", role: "Lead", legacyRole: "Lead", status: "Certified", milestones: [true, true, true, true, true], evidence: "", remarks: "" },
     { id: "A056", capability: "Enzyme", capCode: "Enzyme TA3", capType: "TA", route: "Regional TA Evaluation", nominee: "Iftu, Iftekher", email: "Iftekher.Iftu@unilever.com", role: "Backup", legacyRole: "Backup 01", status: "Certified", milestones: [true, true, true, true, true], evidence: "", remarks: "" },
-    { id: "A057", capability: "Enzyme", capCode: "Enzyme TA3", capType: "TA", route: "Regional TA Evaluation", nominee: "Chowdhury, Naquib", email: "Naquib.Chowdhury@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" }
+    { id: "A057", capability: "Enzyme", capCode: "Enzyme TA3", capType: "TA", route: "Regional TA Evaluation", nominee: "Sarwar, Muntasir", email: "Muntasir.Sarwar@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" }
 
   ]
 };
