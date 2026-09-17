@@ -1,23 +1,8 @@
-/* =========================================================
-   KGF CPTA - MASTER DATA
-   ---------------------------------------------------------
-   This file IS the database. Edit here (or use the dashboard
-   Export button) and commit to publish for everyone.
-
-   milestones: [M1, M2, M3, M4, M5]  -> true = done
-   ========================================================= */
-
 const CPTA_DATA = {
 
-  updated: "17 Sep 2026",
+  updated: "Thu Sep 17 2026",
 
-  milestoneLabels: [
-    "Nominated",
-    "Training Completed",
-    "Assessment Done",
-    "Evidence Submitted",
-    "Certified"
-  ],
+  milestoneLabels: ["Nominated","Training Completed","Assessment Done","Evidence Submitted","Certified"],
 
   capabilities: [
     { name: "Confined Spaces", code: "S3001", type: "CP", route: "Global Pathway" },
@@ -46,13 +31,13 @@ const CPTA_DATA = {
     { id: "A001", capability: "Confined Spaces", capCode: "S3001", capType: "CP", route: "Global Pathway", nominee: "Alam, Md-Mahmudul", email: "Md-Mahmudul.Alam@unilever.com", role: "Lead", legacyRole: "Lead", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A002", capability: "Confined Spaces", capCode: "S3001", capType: "CP", route: "Global Pathway", nominee: "Horayra, Md-Abu", email: "Md-Abu.Horayra@unilever.com", role: "Backup", legacyRole: "Backup 01", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A003", capability: "Confined Spaces", capCode: "S3001", capType: "CP", route: "Global Pathway", nominee: "Kundu, Susmita", email: "Susmita.Kundu@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
-    { id: "A004", capability: "Fall Prevention", capCode: "S3005-01", capType: "CP", route: "Global Pathway", nominee: "Rifa, Tasnia-Islam", email: "Tasnia-Islam.Rifa@unilever.com", role: "Lead", legacyRole: "Lead", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
+    { id: "A004", capability: "Fall Prevention", capCode: "S3005-01", capType: "CP", route: "Global Pathway", nominee: "Rifa, Tasnia-Islam", email: "Tasnia-Islam.Rifa@unilever.com", role: "Lead", legacyRole: "Lead", status: "Certified", milestones: [true, true, true, true, true], evidence: "", remarks: "" },
     { id: "A005", capability: "Fall Prevention", capCode: "S3005-01", capType: "CP", route: "Global Pathway", nominee: "Ahmed, Mastafa", email: "Mastafa.Ahmed@unilever.com", role: "Backup", legacyRole: "Backup 01", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A006", capability: "Fall Prevention", capCode: "S3005-01", capType: "CP", route: "Global Pathway", nominee: "Islam, GM-Shariful", email: "GM-Shariful.Islam@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
-    { id: "A007", capability: "Ladder", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Rifa, Tasnia-Islam", email: "Tasnia-Islam.Rifa@unilever.com", role: "Lead", legacyRole: "Lead", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
+    { id: "A007", capability: "Ladder", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Rifa, Tasnia-Islam", email: "Tasnia-Islam.Rifa@unilever.com", role: "Lead", legacyRole: "Lead", status: "Certified", milestones: [true, true, true, true, true], evidence: "", remarks: "" },
     { id: "A008", capability: "Ladder", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Ahmed, Mastafa", email: "Mastafa.Ahmed@unilever.com", role: "Backup", legacyRole: "Backup 01", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A009", capability: "Ladder", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Yasin, Mohammad", email: "Mohammad.Yasin@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
-    { id: "A010", capability: "MEWP", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Rifa, Tasnia-Islam", email: "Tasnia-Islam.Rifa@unilever.com", role: "Lead", legacyRole: "Lead", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
+    { id: "A010", capability: "MEWP", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Rifa, Tasnia-Islam", email: "Tasnia-Islam.Rifa@unilever.com", role: "Lead", legacyRole: "Lead", status: "Certified", milestones: [true, true, true, true, true], evidence: "", remarks: "" },
     { id: "A011", capability: "MEWP", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Ahmed, Mastafa", email: "Mastafa.Ahmed@unilever.com", role: "Backup", legacyRole: "Backup 01", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A012", capability: "MEWP", capCode: "S3005-02", capType: "CP", route: "Global Pathway", nominee: "Yasin, Mohammad", email: "Mohammad.Yasin@unilever.com", role: "Backup", legacyRole: "Backup 02", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
     { id: "A013", capability: "Electrical Safety", capCode: "TA3 Programme", capType: "TA", route: "Regional TA Evaluation", nominee: "Das2, Anindya", email: "Anindya.Das2@unilever.com", role: "Lead", legacyRole: "Lead", status: "Not Started", milestones: [false, false, false, false, false], evidence: "", remarks: "" },
