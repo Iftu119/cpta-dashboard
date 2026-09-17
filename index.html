@@ -14,11 +14,15 @@
     <div class="sub" id="stamp"></div>
   </div>
   <div class="actions">
-    <button class="btn ghost" id="btnReset">Reset my edits</button>
     <button class="btn ghost" id="btnCsv">Download CSV</button>
-    <button class="btn" id="btnExport">Export updated data</button>
   </div>
 </header>
+
+<div class="notice">
+  <b>View only.</b> Milestone status is maintained centrally by the Site SHE team.
+  If your progress has moved, email <a href="mailto:Iftekher.Iftu@unilever.com?subject=CPTA%20Milestone%20Update">Iftekher.Iftu@unilever.com</a>
+  with your assignment ID and the milestone reached, and it will be reflected here.
+</div>
 
 <div class="cards">
   <div class="card"><div class="label">Capability Streams</div><div class="value" id="kCap">-</div></div>
@@ -35,7 +39,7 @@
 </div>
 
 <div class="panel">
-  <h2>Assignments <span style="font-weight:400;color:#94a3b8;font-size:13px">&mdash; tick your milestones, then click Export</span></h2>
+  <h2>Assignment Status</h2>
   <div class="filters">
     <select id="fCap"></select>
     <select id="fRoute"></select>
@@ -58,22 +62,6 @@
     M1 Nominated &nbsp;&bull;&nbsp; M2 Training Completed &nbsp;&bull;&nbsp; M3 Assessment Done &nbsp;&bull;&nbsp; M4 Evidence Submitted &nbsp;&bull;&nbsp; M5 Certified
   </div>
 </div>
-
-<dialog id="dlg">
-  <h2 style="margin-bottom:8px">Updated data.js</h2>
-  <p style="font-size:13px;color:#64748b;margin-bottom:12px">
-    Copy or download this, then open <b>data.js</b> in GitHub, replace everything, and commit.
-    Once committed, everyone sees the updated status.
-  </p>
-  <textarea id="exportBox" spellcheck="false"></textarea>
-  <div style="margin-top:12px;display:flex;gap:10px;justify-content:flex-end">
-    <button class="btn ghost" onclick="document.getElementById('dlg').close()">Close</button>
-    <button class="btn ghost" id="btnDownload">Download data.js</button>
-    <button class="btn" id="btnCopy">Copy</button>
-  </div>
-</dialog>
-
-<div id="toast"></div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
