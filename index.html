@@ -57,6 +57,7 @@ body{
         grid-template-columns:1fr;
     }
 }
+
 </style>
 
 </head>
@@ -71,25 +72,36 @@ body{
 
     <div class="card">
         <div class="label">Capabilities</div>
-        <div class="value">0</div>
+        <div class="value" id="capabilities">Loading...</div>
     </div>
 
     <div class="card">
         <div class="label">Nominees</div>
-        <div class="value">0</div>
+        <div class="value" id="nominees">Loading...</div>
     </div>
 
     <div class="card">
         <div class="label">Assignments</div>
-        <div class="value">0</div>
+        <div class="value" id="assignments">Loading...</div>
     </div>
 
     <div class="card">
         <div class="label">Completion</div>
-        <div class="value">0%</div>
+        <div class="value" id="completion">Loading...</div>
     </div>
 
 </div>
+
+<script>
+
+// Temporary test values
+
+document.getElementById("capabilities").innerText = "19";
+document.getElementById("nominees").innerText = "21";
+document.getElementById("assignments").innerText = "57";
+document.getElementById("completion").innerText = "65%";
+
+</script>
 
 </body>
 </html>
