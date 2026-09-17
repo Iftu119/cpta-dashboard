@@ -20,11 +20,13 @@ header .sub{color:#6b7280;font-size:13px;margin-top:5px}
 .card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
 .card .label{color:#6b7280;font-size:12px}
 .card .value{font-size:32px;font-weight:700;color:#005EB8;margin-top:6px}
+.card .sublabel{color:#94a3b8;font-size:11px;margin-top:2px}
 
 .panel{background:#fff;border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:22px}
 .panel h2{font-size:16px;margin-bottom:16px;color:#111827}
 
-.cap-row{display:grid;grid-template-columns:260px 1fr 60px;gap:14px;align-items:center;margin-bottom:12px;font-size:14px}
+.cap-row{display:grid;grid-template-columns:300px 1fr 60px;gap:14px;align-items:center;margin-bottom:16px;font-size:14px}
+.ltline{font-size:11px;color:#64748b;margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .bar{background:#e5e7eb;border-radius:20px;height:14px;overflow:hidden}
 .bar span{display:block;height:100%;transition:width .3s}
 .bar span.good{background:#16a34a}
@@ -45,6 +47,10 @@ td.empty{text-align:center;color:#94a3b8;padding:24px}
 .meta{color:#94a3b8;font-size:11px;margin-top:2px}
 .idc{font-family:Consolas,monospace;font-size:11px;color:#94a3b8}
 
+.ltcell{display:flex;flex-wrap:wrap;gap:3px;max-width:190px}
+.lt.tbc{color:#cbd5e1;font-style:italic}
+.tbcdash{color:#cbd5e1}
+
 .ms{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
   border-radius:5px;font-size:13px;font-weight:700;line-height:1}
 .ms.on{background:#16a34a;color:#fff}
@@ -53,6 +59,7 @@ td.empty{text-align:center;color:#94a3b8;padding:24px}
 .pill{font-size:11px;padding:3px 9px;border-radius:20px;white-space:nowrap;display:inline-block}
 .pill.lead{background:#dbeafe;color:#1e40af}
 .pill.backup{background:#f1f5f9;color:#475569}
+.pill.flt{background:#ede9fe;color:#5b21b6}
 .pill.st-done{background:#dcfce7;color:#166534}
 .pill.st-prog{background:#fef3c7;color:#92400e}
 .pill.st-new{background:#fee2e2;color:#991b1b}
@@ -68,6 +75,6 @@ td.empty{text-align:center;color:#94a3b8;padding:24px}
 @media(max-width:700px){
   body{padding:14px}
   .cards{grid-template-columns:1fr 1fr}
-  .cap-row{grid-template-columns:140px 1fr 46px}
+  .cap-row{grid-template-columns:160px 1fr 46px}
   .filters input{min-width:100%}
 }

@@ -30,7 +30,11 @@
   <div class="card"><div class="label">Assignments</div><div class="value" id="kAsg">-</div></div>
   <div class="card"><div class="label">Overall Completion</div><div class="value" id="kPct">-</div></div>
   <div class="card"><div class="label">Certified</div><div class="value" id="kCert">-</div></div>
-  <div class="card"><div class="label">Not Started</div><div class="value" id="kNs">-</div></div>
+  <div class="card">
+    <div class="label">LT Owner Assigned</div>
+    <div class="value" id="kLt">-</div>
+    <div class="sublabel" id="kLtSub"></div>
+  </div>
 </div>
 
 <div class="panel">
@@ -48,13 +52,14 @@
       <option>Lead</option>
       <option>Backup</option>
     </select>
+    <select id="fLt"></select>
     <select id="fStatus">
       <option value="">All statuses</option>
       <option>Not Started</option>
       <option>In Progress</option>
       <option>Certified</option>
     </select>
-    <input id="fSearch" type="text" placeholder="Search nominee, capability or ID">
+    <input id="fSearch" type="text" placeholder="Search nominee, capability, LT owner or ID">
     <span class="count" id="count"></span>
   </div>
   <div style="overflow-x:auto"><table id="tbl"></table></div>
