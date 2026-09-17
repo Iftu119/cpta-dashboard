@@ -48,13 +48,14 @@ function renderKpis() {
   document.getElementById("kNs").innerText = rows.filter(r => statusOf(r) === "Not Started").length;
 }
 
-/* ---------- Capability progress ---------- */
+/* ---------- Capability progress (programme order) ---------- */
 function renderCaps() {
+  const order = CPTA_DATA.capabilities.map(c => c.name);
   const map = {};
   rows.forEach(r => (map[r.capability] = map[r.capability] || []).push(r));
 
   document.getElementById("caps").innerHTML =
-    Object.keys(map).sort().map(c => {
+    order.filter(c => map[c]).map(c => {
       const list = map[c];
       const p = Math.round(list.reduce((a, r) => a + pctOf(r), 0) / list.length);
       const owners = list.filter(r => r.role === "LT Owner").map(r => r.nominee);
@@ -75,6 +76,7 @@ function renderCaps() {
 /* ---------- Table ---------- */
 function renderTable() {
   const fCap = document.getElementById("fCap").value;
+  const fName = document.getElementById("fName").value;
   const fRole = document.getElementById("fRole").value;
   const fRoute = document.getElementById("fRoute").value;
   const fStat = document.getElementById("fStatus").value;
@@ -82,6 +84,7 @@ function renderTable() {
 
   const view = rows.filter(r =>
     (!fCap || r.capability === fCap) &&
+    (!fName || r.nominee === fName) &&
     (!fRole || r.role === fRole) &&
     (!fRoute || r.route === fRoute) &&
     (!fStat || statusOf(r) === fStat) &&
@@ -124,27 +127,41 @@ function renderTable() {
 
 /* ---------- Resources Hub ---------- */
 function renderResources() {
+  const order = CPTA_DATA.capabilities.map(c => c.name);
   const meta = {};
   rows.forEach(r => { if (!meta[r.capability]) meta[r.capability] = r; });
 
+  const rCap = document.getElementById("rCap").value;
+  const rType = document.getElementById("rType").value;
+  const rRoute = document.getElementById("rRoute").value;
   const q = document.getElementById("rSearch").value.toLowerCase();
-  const names = Object.keys(meta).sort();
 
-  let shown = 0;
-  const html = names.map(c => {
-    const all = RES[c] || [];
-    const capHit = c.toLowerCase().includes(q);
-    const links = q && !capHit ? all.filter(l => l.title.toLowerCase().includes(q)) : all;
-    if (q && !capHit && !links.length) return "";
-    shown++;
+  let shown = 0, linkCount = 0;
+
+  const html = order.filter(c => meta[c]).map(c => {
     const m = meta[c];
+    if (rCap && c !== rCap) return "";
+    if (rRoute && m.route !== rRoute) return "";
+
+    let links = (RES[c] || []).slice();
+    if (rType) links = links.filter(l => l.type === rType);
+    if (q && !c.toLowerCase().includes(q)) {
+      links = links.filter(l => l.title.toLowerCase().includes(q));
+      if (!links.length) return "";
+    }
+    if (rType && !links.length) return "";
+
+    shown++;
+    linkCount += links.length;
+
     const body = links.length
       ? links.map(l =>
-          `<a class="reslink" href="${l.url}" target="_blank" rel="noopener">
+          `<a class="reslink ${l.type}" href="${l.url}" target="_blank" rel="noopener">
              <span class="ico">${ICON[l.type] || ICON.site}</span>
              <span class="txt">${l.title}<span class="rtype">${TYPELBL[l.type] || ""}</span></span>
            </a>`).join("")
       : `<div class="nolink">No training link recorded yet</div>`;
+
     return `<div class="resbox">
       <div class="reshead">
         <b>${c}</b>
@@ -156,24 +173,48 @@ function renderResources() {
   }).join("");
 
   document.getElementById("resGrid").innerHTML =
-    html || `<div class="empty">No resources match that search</div>`;
-  document.getElementById("rCount").innerText = shown + " of " + names.length + " streams";
+    html || `<div class="empty">No resources match those filters</div>`;
+  document.getElementById("rCount").innerText =
+    shown + " stream" + (shown === 1 ? "" : "s") + " &middot; " + linkCount + " link" + (linkCount === 1 ? "" : "s");
+}
+
+function resetResources() {
+  ["rCap", "rType", "rRoute"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("rSearch").value = "";
+  renderResources();
 }
 
 /* ---------- Filters ---------- */
 function buildFilters() {
-  const caps = [...new Set(rows.map(r => r.capability))].sort();
+  const order = CPTA_DATA.capabilities.map(c => c.name);
+  const caps = order.filter(c => rows.some(r => r.capability === c));
   const routes = [...new Set(rows.map(r => r.route))].sort();
+  const names = [...new Set(rows.map(r => r.nominee))].sort();
+  const types = [...new Set(Object.values(RES).flat().map(l => l.type))];
 
   document.getElementById("fCap").innerHTML =
     `<option value="">All capabilities</option>` + caps.map(c => `<option>${c}</option>`).join("");
+  document.getElementById("fName").innerHTML =
+    `<option value="">All names</option>` + names.map(c => `<option>${c}</option>`).join("");
   document.getElementById("fRoute").innerHTML =
     `<option value="">All certification routes</option>` + routes.map(c => `<option>${c}</option>`).join("");
 
-  ["fCap", "fRole", "fRoute", "fStatus"].forEach(id =>
+  document.getElementById("rCap").innerHTML =
+    `<option value="">All capabilities</option>` + caps.map(c => `<option>${c}</option>`).join("");
+  document.getElementById("rRoute").innerHTML =
+    `<option value="">All certification routes</option>` + routes.map(c => `<option>${c}</option>`).join("");
+  document.getElementById("rType").innerHTML =
+    `<option value="">All resource types</option>` +
+    types.map(t => `<option value="${t}">${TYPELBL[t]}</option>`).join("");
+
+  ["fCap", "fName", "fRole", "fRoute", "fStatus"].forEach(id =>
     document.getElementById(id).onchange = renderTable);
   document.getElementById("fSearch").oninput = renderTable;
+
+  ["rCap", "rType", "rRoute"].forEach(id =>
+    document.getElementById(id).onchange = renderResources);
   document.getElementById("rSearch").oninput = renderResources;
+  document.getElementById("rReset").onclick = resetResources;
 }
 
 /* ---------- CSV ---------- */
@@ -193,9 +234,7 @@ function exportCsv() {
 
 /* ---------- Boot ---------- */
 document.getElementById("btnCsv").onclick = exportCsv;
-document.getElementById("stamp").innerText =
-  "Last updated " + CPTA_DATA.updated + "  |  " + rows.length + " assignments across " +
-  new Set(rows.map(r => r.capability)).size + " capability streams";
+document.getElementById("stamp").innerText = "Last updated " + CPTA_DATA.updated;
 
 buildFilters();
 renderKpis();

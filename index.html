@@ -18,12 +18,6 @@
   </div>
 </header>
 
-<div class="notice">
-  <b>View only.</b> Milestone status is maintained centrally by the Site SHE team.
-  If your progress has moved, email <a href="mailto:Iftekher.Iftu@unilever.com?subject=CPTA%20Milestone%20Update">Iftekher.Iftu@unilever.com</a>
-  with your assignment ID and the milestone reached, and it will be reflected here.
-</div>
-
 <div class="cards">
   <div class="card"><div class="label">Capability Streams</div><div class="value" id="kCap">-</div></div>
   <div class="card"><div class="label">Nominees</div><div class="value" id="kNom">-</div></div>
@@ -42,13 +36,14 @@
   <h2>Assignment Status</h2>
   <div class="filters">
     <select id="fCap"></select>
-    <select id="fRoute"></select>
+    <select id="fName"></select>
     <select id="fRole">
       <option value="">All roles</option>
       <option>Lead</option>
       <option>Backup</option>
       <option>LT Owner</option>
     </select>
+    <select id="fRoute"></select>
     <select id="fStatus">
       <option value="">All statuses</option>
       <option>Not Started</option>
@@ -67,7 +62,11 @@
 <div class="panel">
   <h2>Resources Hub</h2>
   <div class="filters">
+    <select id="rCap"></select>
+    <select id="rType"></select>
+    <select id="rRoute"></select>
     <input id="rSearch" type="text" placeholder="Search a capability or a document">
+    <button class="btn ghost small" id="rReset">Clear</button>
     <span class="count" id="rCount"></span>
   </div>
   <div class="resgrid" id="resGrid"></div>
@@ -76,6 +75,16 @@
     Links open in a new tab and require your Unilever sign-in.
   </div>
 </div>
+
+<footer class="sitefoot">
+  <span class="tag">View only</span>
+  <span class="ftext">
+    Milestone status is maintained centrally by the Site SHE team.
+    If your progress has moved, email
+    <a href="mailto:Iftekher.Iftu@unilever.com?subject=CPTA%20Milestone%20Update">Iftekher.Iftu@unilever.com</a>
+    with your assignment ID and the milestone reached.
+  </span>
+</footer>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
