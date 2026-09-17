@@ -3,11 +3,11 @@
 
 const LBL = CPTA_DATA.milestoneLabels;
 const rows = CPTA_DATA.assignments;
+const RES = CPTA_DATA.resources || {};
 
 const doneOf = r => r.milestones.filter(Boolean).length;
 const pctOf = r => Math.round(doneOf(r) / LBL.length * 100);
 const cls = p => p >= 80 ? "good" : p >= 40 ? "warn" : "bad";
-const lts = r => (r.ltOwners || []).filter(o => o && o.name);
 
 function statusOf(r) {
   const n = doneOf(r);
@@ -16,27 +16,36 @@ function statusOf(r) {
   return "In Progress";
 }
 
-function ltChip(o) {
-  return o.email
-    ? `<a class="pill flt" href="mailto:${o.email}" title="${o.email}">${o.name}</a>`
-    : `<span class="pill flt noemail" title="email not confirmed">${o.name}</span>`;
+function roleCls(role) {
+  if (role === "Lead") return "lead";
+  if (role === "LT Owner") return "flt";
+  return "backup";
 }
+
+const ICON = {
+  standard: "&#128196;",
+  ppt: "&#128202;",
+  video: "&#9654;",
+  workday: "&#127891;",
+  site: "&#127760;"
+};
+const TYPELBL = {
+  standard: "Standard",
+  ppt: "Training material",
+  video: "Video",
+  workday: "Workday",
+  site: "Site"
+};
 
 /* ---------- KPIs ---------- */
 function renderKpis() {
   const done = rows.reduce((a, r) => a + doneOf(r), 0);
-  const caps = CPTA_DATA.capabilities;
-  const all = new Set();
-  caps.forEach(c => (c.ltOwners || []).forEach(o => all.add(o.name)));
-
   document.getElementById("kCap").innerText = new Set(rows.map(r => r.capability)).size;
   document.getElementById("kNom").innerText = new Set(rows.map(r => r.nominee)).size;
   document.getElementById("kAsg").innerText = rows.length;
   document.getElementById("kPct").innerText = Math.round(done / (rows.length * LBL.length) * 100) + "%";
   document.getElementById("kCert").innerText = rows.filter(r => statusOf(r) === "Certified").length;
-  document.getElementById("kLt").innerText =
-    caps.filter(c => (c.ltOwners || []).length).length + " / " + caps.length;
-  document.getElementById("kLtSub").innerText = all.size + " LT members";
+  document.getElementById("kNs").innerText = rows.filter(r => statusOf(r) === "Not Started").length;
 }
 
 /* ---------- Capability progress ---------- */
@@ -48,15 +57,14 @@ function renderCaps() {
     Object.keys(map).sort().map(c => {
       const list = map[c];
       const p = Math.round(list.reduce((a, r) => a + pctOf(r), 0) / list.length);
-      const owners = lts(list[0]);
-      const ltHtml = owners.length
-        ? `LT: ` + owners.map(ltChip).join(" ")
-        : `<span class="lt tbc">LT not assigned</span>`;
+      const owners = list.filter(r => r.role === "LT Owner").map(r => r.nominee);
+      const meta = [list[0].capCode, list[0].route]
+        .concat(owners.length ? ["LT: " + owners.join(", ")] : [])
+        .join(" &middot; ");
       return `<div class="cap-row">
         <div>
           <b>${c}</b>
-          <div class="meta">${list[0].capCode} &middot; ${list[0].route}</div>
-          <div class="ltline">${ltHtml}</div>
+          <div class="meta">${meta}</div>
         </div>
         <div class="bar"><span class="${cls(p)}" style="width:${p}%"></span></div>
         <div class="pct ${cls(p)}">${p}%</div>
@@ -69,7 +77,6 @@ function renderTable() {
   const fCap = document.getElementById("fCap").value;
   const fRole = document.getElementById("fRole").value;
   const fRoute = document.getElementById("fRoute").value;
-  const fLt = document.getElementById("fLt").value;
   const fStat = document.getElementById("fStatus").value;
   const q = document.getElementById("fSearch").value.toLowerCase();
 
@@ -77,11 +84,9 @@ function renderTable() {
     (!fCap || r.capability === fCap) &&
     (!fRole || r.role === fRole) &&
     (!fRoute || r.route === fRoute) &&
-    (!fLt || (fLt === "__none" ? !lts(r).length : lts(r).some(o => o.name === fLt))) &&
     (!fStat || statusOf(r) === fStat) &&
     (!q || r.nominee.toLowerCase().includes(q) ||
            r.capability.toLowerCase().includes(q) ||
-           lts(r).map(o => o.name).join(" ").toLowerCase().includes(q) ||
            r.id.toLowerCase().includes(q))
   );
 
@@ -92,24 +97,17 @@ function renderTable() {
   const body = view.map(r => {
     const p = pctOf(r);
     const st = statusOf(r);
-    const roleCls = r.role === "Lead" ? "lead" : "backup";
     const stCls = st === "Certified" ? "st-done" : st === "In Progress" ? "st-prog" : "st-new";
 
     const marks = r.milestones.map((v, i) =>
       `<td><span class="ms ${v ? "on" : "off"}" title="${LBL[i]}: ${v ? "Completed" : "Pending"}">${v ? "&#10003;" : ""}</span></td>`
     ).join("");
 
-    const owners = lts(r);
-    const ltCell = owners.length
-      ? `<div class="ltcell">` + owners.map(ltChip).join("") + `</div>`
-      : `<span class="tbcdash">&mdash;</span>`;
-
     return `<tr>
       <td><span class="idc">${r.id}</span></td>
       <td>${r.capability}<div class="meta">${r.capCode} &middot; ${r.capType}</div></td>
       <td>${r.nominee}<div class="meta">${r.email}</div></td>
-      <td><span class="pill ${roleCls}">${r.legacyRole}</span></td>
-      <td>${ltCell}</td>
+      <td><span class="pill ${roleCls(r.role)}">${r.legacyRole}</span></td>
       ${marks}
       <td class="pct ${cls(p)}">${p}%</td>
       <td><span class="pill ${stCls}">${st}</span></td>
@@ -118,41 +116,71 @@ function renderTable() {
 
   document.getElementById("tbl").innerHTML = `
     <thead><tr>
-      <th>ID</th><th>Capability</th><th>Nominee</th><th>Role</th><th>LT Owner</th>
+      <th>ID</th><th>Capability</th><th>Nominee</th><th>Role</th>
       ${mHead}<th>%</th><th>Status</th>
     </tr></thead>
-    <tbody>${body || `<tr><td colspan="12" class="empty">No records match the filters</td></tr>`}</tbody>`;
+    <tbody>${body || `<tr><td colspan="11" class="empty">No records match the filters</td></tr>`}</tbody>`;
+}
+
+/* ---------- Resources Hub ---------- */
+function renderResources() {
+  const meta = {};
+  rows.forEach(r => { if (!meta[r.capability]) meta[r.capability] = r; });
+
+  const q = document.getElementById("rSearch").value.toLowerCase();
+  const names = Object.keys(meta).sort();
+
+  let shown = 0;
+  const html = names.map(c => {
+    const all = RES[c] || [];
+    const capHit = c.toLowerCase().includes(q);
+    const links = q && !capHit ? all.filter(l => l.title.toLowerCase().includes(q)) : all;
+    if (q && !capHit && !links.length) return "";
+    shown++;
+    const m = meta[c];
+    const body = links.length
+      ? links.map(l =>
+          `<a class="reslink" href="${l.url}" target="_blank" rel="noopener">
+             <span class="ico">${ICON[l.type] || ICON.site}</span>
+             <span class="txt">${l.title}<span class="rtype">${TYPELBL[l.type] || ""}</span></span>
+           </a>`).join("")
+      : `<div class="nolink">No training link recorded yet</div>`;
+    return `<div class="resbox">
+      <div class="reshead">
+        <b>${c}</b>
+        <span class="chip ${m.capType === "CP" ? "cp" : "ta"}">${m.capType}</span>
+      </div>
+      <div class="meta">${m.capCode} &middot; ${m.route}</div>
+      <div class="reslinks">${body}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("resGrid").innerHTML =
+    html || `<div class="empty">No resources match that search</div>`;
+  document.getElementById("rCount").innerText = shown + " of " + names.length + " streams";
 }
 
 /* ---------- Filters ---------- */
 function buildFilters() {
   const caps = [...new Set(rows.map(r => r.capability))].sort();
   const routes = [...new Set(rows.map(r => r.route))].sort();
-  const ltSet = new Set();
-  rows.forEach(r => lts(r).forEach(o => ltSet.add(o.name)));
-  const ltList = [...ltSet].sort();
 
   document.getElementById("fCap").innerHTML =
     `<option value="">All capabilities</option>` + caps.map(c => `<option>${c}</option>`).join("");
   document.getElementById("fRoute").innerHTML =
     `<option value="">All certification routes</option>` + routes.map(c => `<option>${c}</option>`).join("");
-  document.getElementById("fLt").innerHTML =
-    `<option value="">All LT owners</option>` + ltList.map(c => `<option>${c}</option>`).join("") +
-    `<option value="__none">LT not assigned</option>`;
 
-  ["fCap", "fRole", "fRoute", "fLt", "fStatus"].forEach(id =>
+  ["fCap", "fRole", "fRoute", "fStatus"].forEach(id =>
     document.getElementById(id).onchange = renderTable);
   document.getElementById("fSearch").oninput = renderTable;
+  document.getElementById("rSearch").oninput = renderResources;
 }
 
 /* ---------- CSV ---------- */
 function exportCsv() {
-  const head = ["ID", "Capability", "Code", "Type", "Route", "LT Owners", "LT Emails", "Nominee", "Email", "Role", ...LBL, "Percent", "Status"];
+  const head = ["ID", "Capability", "Code", "Type", "Route", "Nominee", "Email", "Role", ...LBL, "Percent", "Status"];
   const lines = [head.join(",")].concat(rows.map(r => [
-    r.id, r.capability, r.capCode, r.capType, r.route,
-    lts(r).map(o => o.name).join("; "),
-    lts(r).map(o => o.email).filter(Boolean).join("; "),
-    r.nominee, r.email, r.legacyRole,
+    r.id, r.capability, r.capCode, r.capType, r.route, r.nominee, r.email, r.legacyRole,
     ...r.milestones.map(v => v ? "Yes" : "No"),
     pctOf(r) + "%", statusOf(r)
   ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")));
@@ -173,3 +201,4 @@ buildFilters();
 renderKpis();
 renderCaps();
 renderTable();
+renderResources();
