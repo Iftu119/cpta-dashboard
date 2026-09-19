@@ -95,22 +95,25 @@ td.empty{text-align:center;color:#94a3b8;padding:24px}
 .empty{color:#94a3b8;text-align:center;padding:24px}
 
 /* ---------- Pinned footer ---------- */
-.sitefoot{position:fixed;left:0;right:0;bottom:0;z-index:50;
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  background:#fff8e6;border-top:3px solid #f59e0b;
-  padding:12px 24px;font-size:13px;color:#78350f;line-height:1.5;
-  box-shadow:0 -2px 12px rgba(16,42,72,.10)}
-.sitefoot .tag{background:#f59e0b;color:#fff;font-weight:700;font-size:11px;
-  padding:3px 10px;border-radius:20px;white-space:nowrap;letter-spacing:.3px}
-.sitefoot a{color:#005EB8}
-.sitefoot .ftext{flex:1;min-width:240px}
+.sitefoot{
+  margin-top:24px;
+  padding:14px 0;
+  border-top:1px solid #e5e7eb;
+  text-align:center;
+}
 
-@media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:700px){
-  body{padding:14px 14px 118px}
-  .cards{grid-template-columns:1fr 1fr}
-  .cap-row{grid-template-columns:170px 1fr 46px}
-  .filters input{min-width:100%}
-  .resgrid{grid-template-columns:1fr}
-  .sitefoot{padding:10px 14px;font-size:12px}
+.sitefoot .ftext{
+  font-size:12px;
+  color:#9ca3af;
+  line-height:1.5;
+}
+
+.sitefoot a{
+  color:#9ca3af;
+  text-decoration:none;
+}
+
+.sitefoot a:hover{
+  color:#6b7280;
+  text-decoration:none;
 }
