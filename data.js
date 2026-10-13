@@ -22,7 +22,7 @@
 
 const CPTA_DATA = {
 
-  updated: "19 Sep 2026",
+  updated: "13 Oct 2026",
 
   milestoneLabels: [
     "Nominated",
